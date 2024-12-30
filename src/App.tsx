@@ -41,7 +41,7 @@ function App() {
 
   return (
     <main className="text-white container py-10 flex flex-col gap-y-10">
-      <div className="flex gap-x-10 items-center justify-between">
+      <div className="flex gap-10 items-center flex-wrap justify-between">
         <h1 className="text-4xl font-bold">Wallet From Scratch</h1>
         <Button variant="secondary" onClick={handleGetStarted}>
           Get Started
