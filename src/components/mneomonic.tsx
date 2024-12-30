@@ -17,14 +17,14 @@ export function Mnemonic({ mnemonic }: { mnemonic?: string }) {
     <section className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-full bg-primary/10">
-            <Shield className="w-5 h-5 text-primary" />
+          <div className="p-2 rounded-full bg-primary/10 dark:bg-primary/20">
+            <Shield className="w-5 h-5 text-primary dark:text-primary/90" />
           </div>
           <div>
-            <h2 className="text-2xl font-semibold text-primary">
+            <h2 className="text-2xl font-semibold text-primary dark:text-primary/90">
               Recovery Phrase
             </h2>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground dark:text-muted-foreground/80">
               Write these words down in order and keep them safe
             </p>
           </div>
@@ -33,7 +33,7 @@ export function Mnemonic({ mnemonic }: { mnemonic?: string }) {
           <Button
             variant="outline"
             size="sm"
-            className="gap-2"
+            className="gap-2 dark:bg-background/95"
             onClick={copyToClipboard}
           >
             <Copy className="w-4 h-4" />
@@ -54,10 +54,14 @@ export function Mnemonic({ mnemonic }: { mnemonic?: string }) {
 function MnemonicWord({ word, index }: { word: string; index: number }) {
   return (
     <div className="relative group">
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-lg blur-sm transition-all duration-300 group-hover:blur-md" />
-      <div className="relative flex items-center p-3 bg-card border rounded-lg shadow-sm transition-all duration-300 group-hover:shadow-md">
-        <span className="text-sm text-muted-foreground mr-2">{index + 1}.</span>
-        <span className="font-mono text-sm font-medium">{word}</span>
+      <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 dark:from-primary/30 dark:to-primary/20 rounded-lg blur-sm transition-all duration-300 group-hover:blur-md" />
+      <div className="relative flex items-center p-3 bg-card dark:bg-card/95 border rounded-lg shadow-sm transition-all duration-300 group-hover:shadow-md dark:border-border/50">
+        <span className="text-sm text-muted-foreground dark:text-muted-foreground/80 mr-2">
+          {index + 1}.
+        </span>
+        <span className="font-mono text-sm font-medium dark:text-foreground/90">
+          {word}
+        </span>
       </div>
     </div>
   );
