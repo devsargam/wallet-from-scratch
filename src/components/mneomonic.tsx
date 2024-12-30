@@ -1,21 +1,44 @@
-import { Shield } from "lucide-react";
+import { Shield, Copy } from "lucide-react";
+import { Button } from "./ui/button";
+import { useState } from "react";
 
 export function Mnemonic({ mnemonic }: { mnemonic?: string }) {
+  const [copied, setCopied] = useState(false);
+
   if (!mnemonic) return null;
+
+  const copyToClipboard = async () => {
+    await navigator.clipboard.writeText(mnemonic);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <section className="space-y-6">
-      <div className="flex items-center gap-3">
-        <div className="p-2 rounded-full bg-primary/10">
-          <Shield className="w-5 h-5 text-primary" />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="p-2 rounded-full bg-primary/10">
+            <Shield className="w-5 h-5 text-primary" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-semibold text-primary">
+              Recovery Phrase
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Write these words down in order and keep them safe
+            </p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-2xl font-semibold text-primary">
-            Recovery Phrase
-          </h2>
-          <p className="text-sm text-muted-foreground">
-            Write these words down in order and keep them safe
-          </p>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            onClick={copyToClipboard}
+          >
+            <Copy className="w-4 h-4" />
+            {copied ? "Copied!" : "Copy"}
+          </Button>
         </div>
       </div>
 
