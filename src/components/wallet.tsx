@@ -5,12 +5,20 @@ import { useState } from "react";
 interface WalletProps {
   name: string;
   index: number;
-  privateKey: string;
   publicKey: string;
+  mnemonic: string;
+  onWalletClick: (mnemonic: string) => void;
 }
 
-export function Wallet({ name, index, privateKey, publicKey }: WalletProps) {
+export function Wallet({
+  name,
+  index,
+  publicKey,
+  mnemonic,
+  onWalletClick,
+}: WalletProps) {
   const [copied, setCopied] = useState(false);
+  const [showMnemonic, setShowMnemonic] = useState(false);
 
   const copyToClipboard = async (text: string) => {
     await navigator.clipboard.writeText(text);
@@ -19,11 +27,19 @@ export function Wallet({ name, index, privateKey, publicKey }: WalletProps) {
   };
 
   const truncateAddress = (address: string) => {
-    return `${address.slice(0, 6)}...${address.slice(-4)}`;
+    return `${address.slice(0, 10)}...${address.slice(-10)}`;
+  };
+
+  const handleClick = () => {
+    setShowMnemonic(!showMnemonic);
+    onWalletClick(mnemonic);
   };
 
   return (
-    <div className="p-6 rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-md transition-all">
+    <div
+      className="p-6 rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-md transition-all cursor-pointer"
+      onClick={handleClick}
+    >
       <div className="flex flex-col space-y-4">
         {/* Wallet Header */}
         <div className="flex items-center justify-between">
@@ -52,7 +68,10 @@ export function Wallet({ name, index, privateKey, publicKey }: WalletProps) {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => copyToClipboard(publicKey)}
+              onClick={(e) => {
+                e.stopPropagation();
+                copyToClipboard(publicKey);
+              }}
               className="shrink-0"
             >
               <Copy className="w-4 h-4" />
@@ -61,12 +80,13 @@ export function Wallet({ name, index, privateKey, publicKey }: WalletProps) {
               variant="ghost"
               size="icon"
               className="shrink-0"
-              onClick={() =>
+              onClick={(e) => {
+                e.stopPropagation();
                 window.open(
                   `https://explorer.solana.com/address/${publicKey}`,
                   "_blank"
-                )
-              }
+                );
+              }}
             >
               <ExternalLink className="w-4 h-4" />
             </Button>

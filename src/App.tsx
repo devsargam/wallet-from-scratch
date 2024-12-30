@@ -16,9 +16,9 @@ function App() {
   const [publicKeys, setPublicKeys] = useState<string[]>([]);
 
   const handleGetStarted = () => {
-    const mnemonic = generateMnemonic();
-    setMnemonic(mnemonic);
-    const seed = mnemonicToSeedSync(mnemonic);
+    const newMnemonic = generateMnemonic();
+    setMnemonic(newMnemonic);
+    const seed = mnemonicToSeedSync(newMnemonic);
 
     const path = `m/44'/501'/${currentIndex}'/0'`;
     const derivedSeed = derivePath(path, seed.toString("hex")).key;
@@ -30,12 +30,17 @@ function App() {
     setWallets((prev) => [
       ...prev,
       {
-        id: "1",
-        name: "MetaMask",
+        id: (currentIndex + 1).toString(),
+        name: "Solana Wallet",
         privateKey: keypair.secretKey.toString(),
         publicKey: keypair.publicKey.toString(),
+        mnemonic: newMnemonic,
       },
     ]);
+  };
+
+  const handleWalletClick = (walletMnemonic: string) => {
+    setMnemonic(walletMnemonic);
   };
 
   return (
@@ -67,6 +72,8 @@ function App() {
                   index={index}
                   privateKey={wallet.privateKey}
                   publicKey={wallet.publicKey}
+                  mnemonic={wallet.mnemonic}
+                  onWalletClick={handleWalletClick}
                 />
               ))
             ) : (
